@@ -27,7 +27,7 @@ class RegisterController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
@@ -38,7 +38,7 @@ class RegisterController extends Controller
         Auth::attempt($request->only('email', 'password'));
 
         // redireccionar
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index', $user->username);
 
     }
 
