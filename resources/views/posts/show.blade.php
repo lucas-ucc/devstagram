@@ -18,6 +18,19 @@
                 </p>
                 <p class="mt 5">{{ $post->descripcion }}</p>
             </div>
+            @auth
+                @if ($post->user_id === Auth::user()->id)
+                    <form method="post" action="{{ route('posts.destroy', $post) }}">
+                        @method('delete')
+                        @csrf
+                        <input type="submit" value="Eliminar Publicación"
+                            class="bg-red-500 hover:bg-red-600 rounded text-white font-bold mt-4 cursor-pointer p-2">
+                    </form>
+                @endif
+
+            @endauth
+
+
         </div>
         <div class="md:w-1/2 p-5 mb-5">
             <div class="shadow bg-white p-5 ">

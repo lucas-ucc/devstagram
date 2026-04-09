@@ -96,3 +96,12 @@ El proyecto corre sobre Docker usando Laravel Sail.
 Aprender desarrollo backend con Laravel y buenas prácticas en proyectos reales.
 
 ---
+
+## Nuevos cambios a agregar al readme
+
+- vista /:username/posts/:id_post
+
+- funcionalidad agregar comentario
+
+- funcionalidad mostar comentario
+- ffuncionalidad eliminar post con autenticacion de autor
