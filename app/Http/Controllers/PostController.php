@@ -17,8 +17,11 @@ class PostController extends Controller
     // intuyo que "dashboard" es el profile que seria la vista general de posts de cada profile
     public function index(User $user)
     {
+        $posts = $user->posts()->paginate(8);
+
         return view("dashboard", [
-            "user" => $user
+            "user" => $user,
+            "posts" => $posts
         ]);
     }
     // deberia manejarse por separado el /profile y el /create posts se meszclan modelos
@@ -34,12 +37,22 @@ class PostController extends Controller
             'imagen' => 'required',
         ]);
 
+        // Forma 1 de crear
         Post::create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'imagen' => $request->imagen,
             'user_id' => Auth::user()->id,
         ]);
+
+        // forma 2 
+        // $request->user()->post()->create([
+        //     'titulo' => $request->titulo,
+        //     'descripcion' => $request->descripcion,
+        //     'imagen' => $request->imagen,
+        //     'user_id' => Auth::user()->id
+        // ]);
+
 
         return redirect()->route('posts.index', Auth::user()->username);
     }
