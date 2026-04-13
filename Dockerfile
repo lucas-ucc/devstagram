@@ -55,4 +55,4 @@ RUN chown -R www-data:www-data /var/www
 EXPOSE 80
 
 # iniciar servicios (IMPORTANTE)
-CMD ["sh", "-c", "sed -i 's/PORT_PLACEHOLDER/'\"$PORT\"'/g' /etc/nginx/conf.d/default.conf && php-fpm & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
