@@ -1,0 +1,57 @@
+# Imagen base
+FROM php:8.3-fpm
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    zip \
+    unzip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    libicu-dev
+
+# Extensiones PHP necesarias para Laravel
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    intl \
+    zip
+
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Directorio de trabajo
+WORKDIR /var/www
+
+# Copiar proyecto
+COPY . .
+
+# Instalar dependencias sin dev
+RUN composer install --no-dev --optimize-autoloader
+
+# Cache de Laravel (clave en prod)
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+# Permisos
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 storage bootstrap/cache
+
+# instalar node deps
+RUN npm install
+
+# build frontend
+RUN npm run build
+
+# Puerto PHP-FPM
+EXPOSE 9000
+
+CMD ["php-fpm"]

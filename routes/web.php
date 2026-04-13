@@ -44,7 +44,6 @@ Route::delete('/posts/{post}/likes', [LikeController::class, 'destroy'])->name('
 Route::get('/editar-perfil', [PerfilController::class, 'index'])->name('perfil.index');
 Route::post('/editar-perfil', [PerfilController::class, 'store'])->name('perfil.store');
 
-
-Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
 Route::post('/{user:username}/follow', [FollowerController::class, 'store'])->name('users.follow');
 Route::delete('/{user:username}/unfollow', [FollowerController::class, 'destroy'])->name('users.unfollow');
+Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');

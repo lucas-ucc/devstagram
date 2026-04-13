@@ -17,7 +17,7 @@ class FollowerController extends Controller
 
     public function destroy(User $user)
     {
-        $user->followers()->deatach(Auth::user()->id);
+        $user->followers()->detach(Auth::user()->id);
 
         return back();
     }

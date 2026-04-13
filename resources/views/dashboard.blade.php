@@ -33,7 +33,7 @@
                         {{ $user->posts->count() }} <span class="font-normal">Posts</span>
                     </p>
                     <p class="text-gray-800  mb-3 font-bold">
-                        0 <span class="font-normal">Seguidores</span>
+                        {{ $user->followers->count() }} <span class="font-normal">Seguidores</span>
                     </p>
                     <p class="text-gray-800  mb-3 font-bold">
                         0 <span class="font-normal">Siguiendo</span>
@@ -43,22 +43,22 @@
                 </div>
                 @auth
                     @if ($user->id !== auth()->user()->id)
-                        @if (1 == 1)
+                        @if (!$user->siguiendo(auth()->user()))
                             <form action="{{ route('users.follow', $user) }}" method="post">
                                 @csrf
                                 <input type="submit"
                                     class="bg-blue-600 text-white uppercase rounded-lg px-3 py-1 text-xs font-bold cursor-pointer"
-                                    value="Seguir">
+                                    value="Seguir" />
 
                             </form>
                         @else
-                            <form action="{{ route('users.unfollow', $user) }}">
-                                @method('delete')
+                            <form action="{{ route('users.unfollow', $user) }}" method="POST">
                                 @csrf
+                                @method('DELETE')
+
                                 <input type="submit"
                                     class="bg-red-600 text-white uppercase rounded-lg px-3 py-1 text-xs font-bold cursor-pointer"
-                                    value="Dejar de seguir">
-
+                                    value="Dejar de seguir" />
                             </form>
                         @endif
                     @endif

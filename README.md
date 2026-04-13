@@ -18,11 +18,12 @@ DevStagram es un proyecto web que replica funcionalidades básicas de Instagram,
 
 - PHP / Laravel
 - MySQL
-- Docker (Laravel Sail)
+- Docker (Laravel Sail + Docker producción)
 - TailwindCSS
 - JavaScript (Vite)
 - Dropzone (upload de imágenes)
 - Intervention Image (procesamiento de imágenes)
+- Nginx (servidor web en producción)
 
 ---
 
@@ -38,10 +39,16 @@ DevStagram es un proyecto web que replica funcionalidades básicas de Instagram,
 ## 🧩 Funcionalidades actuales
 
 - CRUD de posts
-- Subida de imágenes
+- Subida de imágenes con drag & drop
 - Procesamiento de imágenes (resize/crop)
 - Validación de formularios
 - Middleware de autenticación
+- Comentarios en posts
+- Visualización de comentarios
+- Eliminación de posts (solo autor)
+- Likes a posts
+- Sistema de seguidores
+- Edición de perfil
 
 ---
 
@@ -51,13 +58,14 @@ DevStagram es un proyecto web que replica funcionalidades básicas de Instagram,
 - `/login` → Inicio de sesión
 - `/register` → Registro
 - `/posts/create` → Crear post
-- `/{username}` → Perfil de usuario con sus posts
+- `/{username}` → Perfil de usuario
+- `/{username}/posts/{id}` → Detalle de post
 
 ---
 
-## 🐳 Deploy / Entorno
+## 🐳 Entorno de desarrollo (Laravel Sail)
 
-El proyecto corre sobre Docker usando Laravel Sail.
+El proyecto utiliza Laravel Sail para desarrollo local.
 
 ### Comandos principales:
 
@@ -69,6 +77,46 @@ El proyecto corre sobre Docker usando Laravel Sail.
 
 ---
 
+## 🚀 Entorno de producción (Docker)
+
+Se implementó una configuración independiente para producción usando Docker.
+
+### Servicios incluidos:
+
+- App Laravel (PHP-FPM)
+- Nginx
+- MySQL
+- Redis
+
+### Levantar el proyecto:
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+### Ejecutar migraciones:
+
+```bash
+docker exec -it laravel_app php artisan migrate
+```
+
+---
+
+## ⚠️ Variables de entorno
+
+En producción, las variables se definen directamente en `docker-compose.prod.yml`.
+
+Ejemplo:
+
+```yaml
+environment:
+    APP_ENV: production
+    APP_DEBUG: false
+    DB_HOST: mysql
+```
+
+---
+
 ## 🧠 Notas técnicas
 
 - Uso de migraciones para estructura de base de datos
@@ -76,32 +124,21 @@ El proyecto corre sobre Docker usando Laravel Sail.
 - Validaciones con `$request->validate()`
 - Autenticación con `Auth::attempt()`
 - Subida de archivos con Dropzone
-- Procesamiento de imágenes con Intervention Image
+- Procesamiento de imágenes con Intervention Image (requiere extensión GD en PHP)
+- Build de assets con Vite (`npm run build`)
+- Separación de entorno dev vs producción
 
 ---
 
-## 📌 Próximas mejoras (pendiente)
+## 📌 Próximas mejoras
 
-- Likes a posts
-- Comentarios
-- Seguidores / siguiendo
-- Edición de perfil
 - Notificaciones
-- Optimización de imágenes
+- Muro de publicaciones en inicio
 
 ---
 
 ## 📷 Objetivo
 
-Aprender desarrollo backend con Laravel y buenas prácticas en proyectos reales.
+Aprender desarrollo backend con Laravel y buenas prácticas en proyectos reales, incluyendo despliegue con Docker y configuración de entornos.
 
 ---
-
-## Nuevos cambios a agregar al readme
-
-- vista /:username/posts/:id_post
-
-- funcionalidad agregar comentario
-
-- funcionalidad mostar comentario
-- ffuncionalidad eliminar post con autenticacion de autor
