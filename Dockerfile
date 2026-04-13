@@ -53,7 +53,6 @@ RUN chown -R www-data:www-data /var/www
 
 # puerto para Railway
 EXPOSE 8080
-RUN sed -i 's/9000/9001/g' /usr/local/etc/php-fpm.d/www.conf
 
 # iniciar servicios (IMPORTANTE)
 CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
