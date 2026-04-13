@@ -52,7 +52,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN chown -R www-data:www-data /var/www
 
 # puerto para Railway
-EXPOSE 80
+EXPOSE 9000
+RUN sed -i 's/9000/9001/g' /usr/local/etc/php-fpm.d/www.conf
 
 # iniciar servicios (IMPORTANTE)
 CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
