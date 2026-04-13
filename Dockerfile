@@ -26,6 +26,8 @@ RUN apt-get update && apt-get install -y \
  && docker-php-ext-install pdo pdo_mysql gd
 
 WORKDIR /var/www
+RUN mkdir -p /var/run/nginx
+RUN nginx -v
 
 # instalar composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -40,13 +42,14 @@ RUN composer install --no-dev --optimize-autoloader
 COPY --from=frontend /app/public/build /var/www/public/build
 
 # copiar nginx config
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # permisos
 RUN chown -R www-data:www-data /var/www
+
 
 # puerto para Railway
 EXPOSE 80
 
 # iniciar nginx + php
-CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;' || echo 'NGINX FAILED'"]
