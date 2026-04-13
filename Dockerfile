@@ -49,4 +49,4 @@ RUN chown -R www-data:www-data /var/www
 EXPOSE 80
 
 # iniciar nginx + php
-CMD service nginx start && php-fpm
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
