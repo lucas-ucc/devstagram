@@ -41,6 +41,7 @@ RUN composer install --no-dev --optimize-autoloader
 # copiar assets buildados
 COPY --from=frontend /app/public/build /var/www/public/build
 
+RUN rm /etc/nginx/conf.d/default.conf
 # copiar nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
