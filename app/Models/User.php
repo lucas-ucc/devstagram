@@ -46,6 +46,16 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
     }
 
+
+    // cuando mi user autenticado (yo) estoy en user_id, es a mi al que estan sigueindo
+    // pero si mi id aparece en follower_id yo soy el seguidor
+
+    public function followings()
+    {
+        // el user_id pertenece a muchos seguidosres q lo siguen 
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
     public function siguiendo(User $user)
     {
         return $this->followers->contains($user->id);
