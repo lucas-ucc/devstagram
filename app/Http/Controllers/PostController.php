@@ -23,7 +23,7 @@ class PostController extends Controller
     // intuyo que "dashboard" es el profile que seria la vista general de posts de cada profile
     public function index(User $user)
     {
-        $posts = $user->posts()->paginate(8);
+        $posts = $user->posts()->latest()->paginate(8);
 
         return view("dashboard", [
             "user" => $user,

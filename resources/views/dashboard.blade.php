@@ -33,10 +33,10 @@
                         {{ $user->posts->count() }} <span class="font-normal">Posts</span>
                     </p>
                     <p class="text-gray-800  mb-3 font-bold">
-                        {{ $user->followers->count() }} <span class="font-normal">Seguidores</span>
+                        {{ $user->followers->count() }} <span class="font-normal">@choice('Seguidor|Seguidores', $user->followers->count())</span>
                     </p>
                     <p class="text-gray-800  mb-3 font-bold">
-                        0 <span class="font-normal">Siguiendo</span>
+                        {{ $user->followers->count() }} <span class="font-normal">Siguiendo</span>
                     </p>
 
 
@@ -74,22 +74,6 @@
 
     <section class="container mx-auto mt-10">
         <h2 class="text-4xl text-center font-black my-10">Publicaciones</h2>
-
-        @if ($posts->count())
-            <div class="grid md:grid-cols-2 lg:grip-cols-3 xl:grid-cols-4 gap-6">
-                @foreach ($posts as $post)
-                    <div>
-                        <a href="{{ route('posts.show', ['post' => $post, 'user' => $user]) }}">
-                            <img src="{{ asset('uploads') . '/' . $post->imagen }}"
-                                alt="Imagen del post {{ $post->titulo }}">
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="my-10">{{ $posts->links() }}</div>
-        @else
-            <p class="text-gray-600 text-center uppercase text-sm font-bold">No hay posts</p>
-        @endif
+        <x-lister-post :posts="$posts" />
     </section>
 @endsection
