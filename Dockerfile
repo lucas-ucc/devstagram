@@ -13,6 +13,7 @@ RUN npm run build
 # -------- STAGE 2: backend --------
 FROM php:8.3-fpm
 
+# instalar dependencias + nginx
 RUN apt-get update && apt-get install -y \
     nginx \
     git unzip curl zip \
@@ -24,27 +25,35 @@ RUN apt-get update && apt-get install -y \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install pdo pdo_mysql gd
 
+# crear carpeta necesaria para nginx
 RUN mkdir -p /var/run/nginx
 
 WORKDIR /var/www
 
-# composer
+# instalar composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 👇 copiar SOLO lo necesario primero
+# copiar proyecto
 COPY . .
 
+# instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# 👇 copiar build AL FINAL (clave)
+# copiar assets buildados
 COPY --from=frontend /app/public/build /var/www/public/build
 
-# nginx config
+# eliminar config default (sin romper si no existe)
 RUN rm -f /etc/nginx/conf.d/default.conf
+
+# copiar nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# permisos correctos
 RUN chown -R www-data:www-data /var/www
 
+# puerto para Railway
 EXPOSE 8080
 
-CMD ["sh", "-c", "ls -la /var/www/public/build && php artisan migrate --force && php-fpm & nginx -g 'daemon off;'"]
+# iniciar servicios (IMPORTANTE)
+# CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php artisan migrate --force && php-fpm & nginx -g 'daemon off;'"]
