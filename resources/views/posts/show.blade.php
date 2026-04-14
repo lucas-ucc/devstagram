@@ -47,7 +47,12 @@
                 </p>
             </div>
             <div>
-                <p class="font-bold">{{ $user->username }}</p>
+                {{-- meter ancora link al perfil --}}
+                <p class="font-bold">
+                    <a href="{{ route('posts.index', $user->username) }}">
+                        {{ $user->username }}
+                    </a>
+                </p>
                 <p class="text-sm text-gray-500">
                     {{ $post->created_at->diffForHumans() }}
                 </p>

@@ -36,7 +36,7 @@
                         {{ $user->followers->count() }} <span class="font-normal">@choice('Seguidor|Seguidores', $user->followers->count())</span>
                     </p>
                     <p class="text-gray-800  mb-3 font-bold">
-                        {{ $user->followers->count() }} <span class="font-normal">Siguiendo</span>
+                        {{ $user->followings->count() }} <span class="font-normal">Siguiendo</span>
                     </p>
 
 

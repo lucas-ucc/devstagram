@@ -17,7 +17,9 @@ class HomeController extends Controller
         $ids = Auth::user()->followings()->pluck("users.id")->toArray();
         $posts = Post::whereIn("user_id", $ids)->latest()->paginate(20);
 
-        // dd($posts);
+        if ($posts->isEmpty())
+            $posts = Post::inRandomOrder()->paginate(20);
+
 
         return view("home", [
             "posts" => $posts
