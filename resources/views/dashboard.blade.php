@@ -9,7 +9,7 @@
     <div class="flex justify-center">
         <div class="w-full md:w-8/12 lg:w-6/12 md:flex">
             <div class="w-5/12 sm:w-4/12 px-5">
-                <img class="rounded-full"
+                <img class="rounded-full object-cover" loading="lazy"
                     src="{{ $user->imagen ? asset('perfiles' . '/' . $user->imagen) : asset('img/usuario.svg') }}"
                     alt="imagen usuario" />
             </div>
