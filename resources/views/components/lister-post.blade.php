@@ -1,10 +1,11 @@
 <div>
     @if ($posts->count())
-        <div class="grid md:grid-cols-2 lg:grip-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
             @foreach ($posts as $post)
-                <div>
+                <div class="aspect-square bg-gray-200">
                     <a href="{{ route('posts.show', ['post' => $post, 'user' => $post->user]) }}">
-                        <img src="{{ asset('uploads') . '/' . $post->imagen }}" alt="Imagen del post {{ $post->titulo }}">
+                        <img loading="lazy" src="{{ asset('uploads') . '/' . $post->imagen }}"
+                            alt="Imagen del post {{ $post->titulo }}" class="object-cover">
                     </a>
                 </div>
             @endforeach
